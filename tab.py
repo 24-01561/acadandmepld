@@ -16,15 +16,19 @@ def render_css():
     if "theme" not in st.session_state:
         st.session_state["theme"] = "light"
 
-    # Load Background Image (Ensure 'image13.png' is in the root folder)
+    # Load Background Image
     bg_b64 = get_base64_image("image13.png") 
 
     # Theme Logic
     if st.session_state["theme"] == "light":
-        # LIGHT MODE: Sky Blue + Image
+        # LIGHT MODE
         text_color = "#ffffff"
-        btn_bg = "#2C2C2C"
-        btn_text = "#F5F5F5"
+        
+        # Button Colors
+        btn_bg = "#2C2C2C"        # Normal: Dark Grey
+        btn_hover = "#444444"     # Hover: Slightly Lighter Grey (NOT transparent)
+        btn_text = "#ffffff"
+        
         card_bg = "#D9D9D9"
         
         app_bg_style = f"""
@@ -36,13 +40,21 @@ def render_css():
             background-repeat: no-repeat;
         """
     else:
-        # DARK MODE: Solid Dark Blue
+        # DARK MODE
         text_color = "#ffffff"
+        
+        # Button Colors
         btn_bg = "#374151"
+        btn_hover = "#4B5563"
         btn_text = "#ffffff"
+        
         card_bg = "rgba(255, 255, 255, 0.05)"
         
-        app_bg_style = "background-color: #0b1220;"
+        # Explicitly remove background image
+        app_bg_style = """
+            background-color: #0b1220;
+            background-image: none !important;
+        """
 
     # Inject CSS
     st.markdown(f"""
@@ -58,9 +70,9 @@ def render_css():
         transition: background 0.5s ease;
     }}
 
+    /* Remove default padding/max-width to prevent centering/stretching issues */
     .block-container {{
         padding: 0 !important;
-        max-width: 100% !important;
     }}
 
     /* NAVBAR STYLES */
@@ -90,16 +102,22 @@ def render_css():
     }}
     .nav-item a:hover {{ transform: scale(1.05); color: #FFDB5B; }}
 
-    /* BUTTONS */
+    /* BUTTONS (Navbar/Global) */
     div[data-testid="stButton"] button {{
-        background-color: {btn_bg} !important;
-        color: {btn_text} !important;
+        background-color: {btn_bg};
+        color: {btn_text};
         border: none;
         width: 100%;
-        transition: transform 0.2s;
+        transition: transform 0.2s, background-color 0.2s;
     }}
+    
+    /* --- HOVER FIX --- */
+    /* Explicitly force the background color on hover to prevent transparent/blue effect */
     div[data-testid="stButton"] button:hover {{
         transform: scale(1.02);
+        background-color: {btn_hover} !important; 
+        color: {btn_text} !important;
+        border: none !important;
     }}
     
     /* CARDS (Shared Style) */
@@ -127,6 +145,7 @@ def render_top_buttons():
         "It always seems impossible until it's done."
     ]
     
+    # Using columns to position buttons to the right
     spacer, dark_col, motiv_col = st.columns([8, 1, 1.5])
 
     with dark_col:
@@ -139,7 +158,7 @@ def render_top_buttons():
         if st.button("💡 Stay Motivated!", key="motiv_btn"):
             st.toast(random.choice(motivational_quotes), icon="✨")
 
-# --- 3. NAVBAR HTML (WITH CLICKABLE LOGO) ---
+# --- 3. NAVBAR HTML ---
 def render_navbar():
     logo_b64 = get_base64_image("logo.png") 
     logo_src = f"data:image/png;base64,{logo_b64}" if logo_b64 else "https://placehold.co/200x80/png?text=Acad%26Me"
@@ -152,7 +171,7 @@ def render_navbar():
             </a>
         </div>
         <div class="nav-links">
-            <span class="nav-item"><a href="mainpage" target="_self">Pomodoro</a></span>
+            <span class="nav-item"><a href="pomodoro" target="_self">Pomodoro</a></span>
             <span class="nav-item"><a href="calendartodo" target="_self">Calendar</a></span>
             <span class="nav-item"><a href="wellnessvideo" target="_self">Wellness video</a></span>
             <span class="nav-item"><a href="moodtracker" target="_self">Track your mood</a></span>

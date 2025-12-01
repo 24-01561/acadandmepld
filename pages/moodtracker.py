@@ -24,7 +24,7 @@ tab.render_navbar()
 st.markdown("""
 <style>
     div.stButton > button {
-        background: #6a5acd;
+        background: #2C2C2C;
         color: white;
         padding: 0.6rem 1rem;
         border-radius: 10px;
