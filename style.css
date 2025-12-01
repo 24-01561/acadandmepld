@@ -1,0 +1,130 @@
+<style>
+    /* 1. Global Reset & Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&family=Lilita+One&display=swap');
+    
+    .stApp {
+        background-color: #87CEEB; /* Fallback color */
+        /* OPTIONAL: Uncomment line below if you have the background image hosted */
+        /* background-image: url('YOUR_BACKGROUND_IMAGE_URL.png'); */
+        background-size: cover;
+    }
+
+    .main-container {
+        font-family: 'Quicksand', sans-serif;
+        color: white;
+        padding: 20px;
+        max-width: 1440px;
+        margin: 0 auto;
+    }
+
+    /* 2. Navigation Bar */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 30px;
+        align-items: center;
+    }
+
+    .nav-item {
+        font-family: 'Lilita One', cursive;
+        font-size: 24px;
+        cursor: pointer;
+        text-shadow: 0px 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .dark-mode-btn {
+        background: #2C2C2C;
+        color: #F5F5F5;
+        padding: 8px 16px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font-family: 'Inter', sans-serif;
+    }
+
+    /* 3. Hero Section (The Split Layout) */
+    .hero-section {
+        display: flex;
+        align-items: center; /* Vertically centers text and image */
+        justify-content: space-between;
+        margin-top: 50px;
+        gap: 40px;
+    }
+
+    .hero-text {
+        flex: 1; /* Takes up 50% width */
+        max-width: 600px;
+    }
+
+    .hero-title {
+        font-size: 36px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        line-height: 1.3;
+    }
+
+    .hero-btn {
+        background-color: #FFDB5B;
+        color: black;
+        border: none;
+        padding: 15px 40px;
+        font-size: 24px;
+        font-weight: 700;
+        cursor: pointer;
+        margin-top: 30px;
+        border-radius: 5px; /* Added slight rounding */
+        display: inline-block;
+    }
+
+    .hero-image {
+        flex: 1; /* Takes up 50% width */
+        display: flex;
+        justify-content: center;
+    }
+
+    .hero-image img {
+        max-width: 100%;
+        height: auto;
+        /* Drop shadow allows it to pop nicely */
+        filter: drop-shadow(0px 10px 20px rgba(0,0,0,0.15));
+    }
+</style>
+
+<div class="main-container">
+    <nav class="navbar">
+        <div class="logo">
+             <img src="YOUR_LOGO_URL.png" style="height: 80px;" alt="Acad&Me">
+        </div>
+        <div class="nav-links">
+            <span class="nav-item">Pomodoro</span>
+            <span class="nav-item">Calendar</span>
+            <span class="nav-item">Wellness video</span>
+            <span class="nav-item">Track your mood</span>
+            <span class="nav-item">About</span>
+            <button class="dark-mode-btn">Dark Mode</button>
+        </div>
+    </nav>
+
+    <div class="hero-section">
+        <div class="hero-text">
+            <div class="hero-title">
+                Welcome to Acad&Me—your companion for staying focused, organized, and motivated.
+            </div>
+            <p>
+                From timers to task trackers and wellness tools, everything here is designed 
+                to support your learning journey. We're glad you're here!
+            </p>
+            <button class="hero-btn">Start now</button>
+        </div>
+        
+        <div class="hero-image">
+             <img src="YOUR_3D_COMPUTER_IMAGE.png" alt="Dashboard Preview">
+        </div>
+    </div>
+</div>
