@@ -2,6 +2,7 @@ import streamlit as st
 import time
 import sys
 import os
+import base64
 
 # --- 1. CONFIG: WIDE MODE ---
 st.set_page_config(page_title="Pomodoro", page_icon="🍅", layout="wide")
@@ -248,7 +249,7 @@ def pomodoro_app():
             
         st.markdown('</div>', unsafe_allow_html=True) # End timer-controls container
 
-    # Timer Logic
+# Timer Logic
     if st.session_state.running and st.session_state.time_remaining > 0:
         time.sleep(1)
         st.session_state.time_remaining -= 1
@@ -256,7 +257,32 @@ def pomodoro_app():
 
     if st.session_state.running and st.session_state.time_remaining <= 0:
         st.session_state.running = False
+        
+        # --- PLAY LOCAL FILE ---
+        try:
+            # 1. Open the local file (make sure 'alarm.mp3' is in the same folder)
+            with open("alarm.mp3", "rb") as f:
+                data = f.read()
+                
+            # 2. Convert it to a format the browser understands (Base64)
+            b64 = base64.b64encode(data).decode()
+            
+            # 3. Inject the HTML with the encoded audio
+            st.markdown(
+                f"""
+                <audio autoplay>
+                    <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
+                </audio>
+                """,
+                unsafe_allow_html=True
+            )
+        except FileNotFoundError:
+            st.error("Could not find 'alarm.mp3'. Please check the file name.")
+        
+        # -----------------------
+
         st.balloons()
+        time.sleep(3) # Wait for sound to play
         move_next()
         st.rerun()
 
