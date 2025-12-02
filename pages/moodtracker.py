@@ -3,9 +3,9 @@ import pandas as pd
 from datetime import datetime
 import sys
 import os
+import json  # <--- Added json import
 
 # --- 1. IMPORT FIX ---
-# We keep this logic to ensure we find tab.py in the parent folder
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 try:
     import tab
@@ -13,28 +13,46 @@ except ImportError:
     st.error("Error: Could not find 'tab.py'. Please check your folder structure.")
     st.stop()
 
+# --- FILE PATH CONFIGURATION ---
+# This ensures the JSON file is created in the same folder as this script
+JSON_FILE = os.path.join(os.path.dirname(__file__), 'mood_history.json')
+
+# --- DATA HANDLING FUNCTIONS ---
+def load_data():
+    """Loads mood data from the JSON file."""
+    if os.path.exists(JSON_FILE):
+        try:
+            with open(JSON_FILE, 'r') as f:
+                return json.load(f)
+        except json.JSONDecodeError:
+            return [] # Return empty list if file is corrupted
+    return []
+
+def save_data(data):
+    """Saves the current mood list to the JSON file."""
+    with open(JSON_FILE, 'w') as f:
+        json.dump(data, f, indent=4)
+
 # --- PAGE CONFIG ---
 st.set_page_config(page_title="Mood Tracker", page_icon="😊", layout="wide")
 
-# --- 2. INJECT LAYOUT (Restored to prevent errors) ---
-# We MUST call these to ensure the page structure loads correctly
+# --- 2. INJECT LAYOUT ---
 tab.render_css() 
 tab.render_top_buttons()
 tab.render_navbar()
 
-# --- 3. THE OVERRIDE (This removes the binary background) ---
+# --- 3. THE OVERRIDE ---
 st.markdown("""
 <style>
     /* --- 1. REMOVE BINARY BACKGROUND IMAGE & FORCE DARK --- */
     .stApp {
-        background-image: none !important;    /* Hides the binary pattern */
-        background-color: #0E1117 !important; /* Sets the dark background */
+        background-image: none !important;
+        background-color: #0E1117 !important;
         background-attachment: fixed;
         background-size: cover;
     }
     
     /* --- 2. FORCE TEXT TO WHITE --- */
-    /* We use !important to override whatever tab.render_css() set */
     h1, h2, h3, h4, h5, h6, p, label, .stMarkdown, div, span, li {
         color: #FAFAFA !important;
     }
@@ -49,14 +67,14 @@ st.markdown("""
         transition: 0.2s;
     }
     div.stButton > button:hover {
-        background: #44444 !important;
+        background: #444444 !important; /* Fixed hex code typo here too */
         color: white !important;
         border: 1px solid white !important;
     }
 
     .card {
         padding: 20px;
-        background: rgba(255,255,255,0.05); /* Dark mode semi-transparent */
+        background: rgba(255,255,255,0.05);
         border-radius: 15px;
         backdrop-filter: blur(5px);
         margin-bottom: 20px;
@@ -74,8 +92,9 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # --- SESSION STATE ---
+# Load from file on startup if not already in session
 if "mood_data" not in st.session_state:
-    st.session_state.mood_data = []
+    st.session_state.mood_data = load_data()
 
 # --- 4. PAGE CONTENT ---
 c1, c2, c3 = st.columns([1, 6, 1])
@@ -99,10 +118,14 @@ with c2:
     mood = st.slider("Rate your mood", 0, 10, 5)
 
     if st.button("Save Mood"):
+        # 1. Update Session State
         st.session_state.mood_data.append({
             "date": datetime.now().strftime("%Y-%m-%d %H:%M"),
             "mood": mood
         })
+        # 2. Save to JSON file immediately
+        save_data(st.session_state.mood_data)
+        
         st.success(f"Mood saved! {mood_emoji(mood)}", icon="💾")
 
     st.markdown("</div>", unsafe_allow_html=True)
@@ -116,7 +139,7 @@ with c2:
         # Display Chart
         st.line_chart(df["mood"])
 
-        # Display Data Table (Styled to ensure visibility)
+        # Display Data Table
         st.dataframe(df, use_container_width=True)
     else:
         st.info("No moods recorded yet. Start by rating your mood!")
