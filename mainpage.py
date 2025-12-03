@@ -71,8 +71,7 @@ Acad&Me was built to make studying easier, healthier, and more manageable for ev
 <div class="text-block" style="flex: 1;">
 <div class="section-desc" style="font-size: 24px; line-height: 1.5;">
 If you're ready to boost your focus, stay organized, and make studying feel lighter, Acad&Me is here for you. With tools built to keep you motivated and on track, it’s the perfect space for anyone wanting to be more productive.
-</div>
-<div class="section-desc" style="font-size: 24px; line-height: 1.5;">
+<br><br>
 Start your journey today—your future self will thank you!
 </div>
 </div>
@@ -91,7 +90,7 @@ Get to be introduced to our developers 🚀
 <img src="{src1}" alt="Card 1" style="width: 100%; border-radius: 10px; box-shadow: 0px 4px 6px rgba(0,0,0,0.1); object-fit: cover;">
 <div style="margin-top: 15px;">
 <div style="font-size: 20px; font-weight: 700;">Johnearl Bobis</div>
-<div style="font-size: 16px;">Core</div>
+<div style="font-size: 16px;">Project Analyst</div>
 </div>
 </div>
 
@@ -99,7 +98,7 @@ Get to be introduced to our developers 🚀
 <img src="{src2}" alt="Card 2" style="width: 100%; border-radius: 10px; box-shadow: 0px 4px 6px rgba(0,0,0,0.1); object-fit: cover;">
 <div style="margin-top: 15px;">
 <div style="font-size: 20px; font-weight: 700;">Joshua Garcia</div>
-<div style="font-size: 16px;">Support</div>
+<div style="font-size: 16px;">Principal Developer</div>
 </div>
 </div>
 
@@ -107,7 +106,7 @@ Get to be introduced to our developers 🚀
 <img src="{src3}" alt="Card 3" style="width: 100%; border-radius: 10px; box-shadow: 0px 4px 6px rgba(0,0,0,0.1); object-fit: cover;">
 <div style="margin-top: 15px;">
 <div style="font-size: 20px; font-weight: 700;">Ricci Beatrice Gube</div>
-<div style="font-size: 16px;">Marksman</div>
+<div style="font-size: 16px;">System Architect</div>
 </div>
 </div>
 
@@ -115,7 +114,7 @@ Get to be introduced to our developers 🚀
 <img src="{src4}" alt="Card 4" style="width: 100%; border-radius: 10px; box-shadow: 0px 4px 6px rgba(0,0,0,0.1); object-fit: cover;">
 <div style="margin-top: 15px;">
 <div style="font-size: 20px; font-weight: 700;">Ellaine Rae Villalobos</div>
-<div style="font-size: 16px;">Exp</div>
+<div style="font-size: 16px;">Solution Strategist</div>
 </div>
 </div>
 
