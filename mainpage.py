@@ -72,7 +72,7 @@ Acad&Me was built to make studying easier, healthier, and more manageable for ev
 <div class="section-desc" style="font-size: 24px; line-height: 1.5;">
 If you're ready to boost your focus, stay organized, and make studying feel lighter, Acad&Me is here for you. With tools built to keep you motivated and on track, it’s the perfect space for anyone wanting to be more productive.
 <br><br>
-Start your journey today—your future self will thank you!
+<strong>Start your journey today—your future self will thank you!</strong>
 </div>
 </div>
 <div class="visual-block" style="flex: 1; display: flex; justify-content: center;">
