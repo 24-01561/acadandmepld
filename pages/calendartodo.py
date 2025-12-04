@@ -18,7 +18,7 @@ tab.render_navbar()
 #Custom CSS for calendar
 st.markdown("""
 <style>
-    /* --- 1. BUTTONS: Dark Grey Base --- */
+    /*BUTTONS*/
     div.stButton > button:first-child, 
     div.stFormSubmitButton > button:first-child {
         background-color: #2C2C2C !important; 
@@ -27,31 +27,26 @@ st.markdown("""
         border-radius: 8px !important;
         font-weight: bold !important;
         box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
-        
-        /* This ensures the zoom happens smoothly */
         transition: transform 0.2s ease !important;
     }
 
-    /* --- HOVER STATE: Zoom ONLY (No Color Change) --- */
+    /*BUTTON HOVER*/
     div.stButton > button:first-child:hover, 
     div.stFormSubmitButton > button:first-child:hover {
-        /* Keep the color EXACTLY the same */
         background-color: #2C2C2C !important; 
         color: #ffffff !important;
         border-color: #cccccc !important;
-        
-        /* The Zoom Effect */
         transform: scale(1.05) !important;
     }
     
-    /* Active/Click State */
+    /*BUTTON CLICK*/
     div.stButton > button:first-child:active, 
     div.stFormSubmitButton > button:first-child:active {
-        background-color: #1a1a1a !important; /* Go slightly darker when actually clicking */
+        background-color: #1a1a1a !important;
         transform: scale(0.98) !important;
     }
 
-    /* --- 2. INPUT FIELDS --- */
+    /*INPUT FIELDS*/
     input[type="text"], input[type="date"] {
         background-color: #ffffff !important;
         color: #333333 !important;
@@ -63,7 +58,7 @@ st.markdown("""
         outline: none !important;
     }
 
-    /* --- 3. FORM CONTAINER --- */
+    /*FORM CONTAINER*/
     [data-testid="stForm"] {
         background-color: #2c2c2c !important; 
         padding: 30px;
@@ -72,13 +67,13 @@ st.markdown("""
         border: 1px solid #444444;
     }
     
-    /* Text Labels inside Form */
+    /*TEXT LABEL INSIDE FORM*/
     label, [data-testid="stMarkdownContainer"] p {
         color: #ffffff !important;
         font-weight: 500 !important;
     }
 
-    /* --- 4. CALENDAR STYLE --- */
+    /*CALENDAR*/
     .fc {
         background-color: #ffffff !important;
         padding: 20px;
@@ -108,7 +103,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# --- 4. DATA LOADING ---
+#Load JSON data if exists
 if os.path.exists("events.json"):
     with open("events.json", "r") as f:
         try:
@@ -124,18 +119,17 @@ if "show_delete" not in st.session_state:
     st.session_state["show_delete"] = False
 
 
-# --- 5. MAIN LAYOUT ---
-# CHANGED: Ratios adjusted to make the center column much wider [0.1, 10, 0.1]
+#Main Layout
 left_gap, main_col, right_gap = st.columns([0.1, 10, 0.1])
 
 with main_col:
     
     st.title("Calendar To-Do Integration")
 
-    # --- Buttons Row ---
+    #Buttons to toggle forms
     btn_col1, btn_col2 = st.columns(2)
     
-    # CHANGED: Added logic to force the other variable to False when one is clicked
+
     with btn_col1:
         if st.button("Add a Task ➕"):
             st.session_state["show_form"] = not st.session_state["show_form"]
@@ -146,7 +140,7 @@ with main_col:
             st.session_state["show_delete"] = not st.session_state["show_delete"]
             st.session_state["show_form"] = False  # Close add if open
 
-    # --- Add Event Form ---
+    #Add event
     if st.session_state["show_form"]:
         with st.form("date_form"):
             st.subheader("New Event Details")
@@ -167,7 +161,7 @@ with main_col:
                 st.rerun()
                 st.toast("Event added successfully!", icon="✅")
                     
-    # --- Delete Event Form ---
+    #Delete event
     if st.session_state["show_delete"]:
         with st.form("delete_form"):
             st.subheader("Delete Event")
@@ -189,7 +183,7 @@ with main_col:
             else:
                 st.info("No events to delete.")
 
-    # --- The Calendar ---
+    #Calendar display
     calendar_options = {
         "initialView": "dayGridMonth",
         "selectable": True,
@@ -199,7 +193,7 @@ with main_col:
             "right": "dayGridMonth,timeGridWeek,timeGridDay"
         },
         "eventColor": "#3788d8", 
-        "height": "800px" # Optional: Added height to match the new width better
+        "height": "800px" 
     }
 
     calendar(
