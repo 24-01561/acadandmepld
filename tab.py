@@ -2,7 +2,7 @@ import streamlit as st
 import base64
 import random
 
-# --- HELPER: IMAGE LOADER ---
+#Convert images to base64
 def get_base64_image(image_path):
     try:
         with open(image_path, "rb") as img_file:
@@ -10,18 +10,16 @@ def get_base64_image(image_path):
     except FileNotFoundError:
         return ""
 
-# --- 1. CSS & THEME LOGIC ---
+#CSS Styles
 def render_css():
-    # Initialize Session State
     if "theme" not in st.session_state:
-        st.session_state["theme"] = "dark"  # <--- CHANGED FROM "light" TO "dark"
+        st.session_state["theme"] = "dark"  # Default to dark theme
 
-    # Load Background Image
+    #Load BG Image
     bg_b64 = get_base64_image("image13.png") 
 
-    # Theme Logic
-    if st.session_state["theme"] == "light":
-        # LIGHT MODE
+    #Sets for light and dark mode
+    if st.session_state["theme"] == "light": #If light mode is pressed
         text_color = "#ffffff"
         
         # Button Colors
@@ -31,13 +29,13 @@ def render_css():
         
         card_bg = "#D9D9D9"
         
-        # --- BACKGROUND LOGIC ---
+        #Light mode background with image
         app_bg_style = "background-color: #5DA2D5;"
         
-        # Control Opacity Here
+        #Light mode bg opacity changer
         bg_opacity = 0.4  
 
-        # Create a pseudo-element strictly for the image
+        #Image overlay
         bg_overlay_css = f"""
         .stApp::before {{
             content: "";
@@ -55,29 +53,28 @@ def render_css():
         }}
         """
 
-    else:
-        # DARK MODE
+    else: #Dark mode
         text_color = "#ffffff"
         
-        # Button Colors
+        #Button Colors
         btn_bg = "#374151"
         btn_hover = "#4B5563"
         btn_text = "#ffffff"
         
         card_bg = "rgba(255, 255, 255, 0.05)"
         
-        # Dark mode background (no image)
+        #Dark mode
         app_bg_style = "background-color: #0b1220;"
-        bg_overlay_css = "" # No image overlay
+        bg_overlay_css = "" #No image overlay
 
-    # Inject CSS
+    #Custom CSS for tab
     st.markdown(f"""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&family=Lilita+One&family=Roboto+Serif:wght@400&family=Roboto:wght@500&display=swap');
 
     [data-testid="stHeader"], footer {{ display: none; }}
 
-    /* Apply the Image Overlay here */
+    /*Apply  Image Overlay*/
     {bg_overlay_css}
 
     .stApp {{
@@ -92,7 +89,7 @@ def render_css():
         padding: 0 !important;
     }}
 
-    /* NAVBAR STYLES */
+    /*Navigation bar*/
     .navbar {{
         display: flex;
         justify-content: space-between;
@@ -119,7 +116,7 @@ def render_css():
     }}
     .nav-item a:hover {{ transform: scale(1.05); color: #FFDB5B; }}
 
-    /* BUTTONS */
+    /*Buttons*/
     div[data-testid="stButton"] button {{
         background-color: {btn_bg};
         color: {btn_text};
@@ -135,7 +132,7 @@ def render_css():
         border: none !important;
     }}
     
-    /* CARDS */
+    /*Cards*/
     .cards-grid {{
         display: flex;
         justify-content: space-between;
@@ -152,7 +149,7 @@ def render_css():
     </style>
     """, unsafe_allow_html=True)
 
-# --- 2. TOP BUTTONS ---
+#Light/Dark Mode Toggle and Motivational Button
 def render_top_buttons():
     motivational_quotes = [
         "Believe you can and you're halfway there.",
@@ -163,7 +160,6 @@ def render_top_buttons():
     spacer, dark_col, motiv_col = st.columns([8, 1, 1.5])
 
     with dark_col:
-        # NOTE: Label logic is reversed now. If theme is Dark, we show "Light" button
         btn_label = "☀️ Light" if st.session_state["theme"] == "dark" else "🌙 Dark"
         
         if st.button(btn_label, key="theme_toggle"):
@@ -174,7 +170,7 @@ def render_top_buttons():
         if st.button("💡 Stay Motivated!", key="motiv_btn"):
             st.toast(random.choice(motivational_quotes), icon="✨")
 
-# --- 3. NAVBAR HTML ---
+#Navigation bar
 def render_navbar():
     logo_b64 = get_base64_image("logo.png") 
     logo_src = f"data:image/png;base64,{logo_b64}" if logo_b64 else "https://placehold.co/200x80/png?text=Acad%26Me"
