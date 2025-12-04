@@ -3,19 +3,19 @@ import random
 import sys
 import os
 
-# --- 1. IMPORT FIX ---
+#Jmport tab module
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import tab 
 
-# --- 2. PAGE CONFIG ---
+#Set page's config
 st.set_page_config(layout="wide", page_title="Acad&Me - Wellness")
 
-# --- 3. INJECT LAYOUT ---
+#Import tab components
 tab.render_css()
 tab.render_top_buttons()
 tab.render_navbar()
 
-# --- 4. VIDEO PAGE CONTENT ---
+#Video links
 vids = [
     "https://www.youtube.com/watch?v=tybOi4hjZFQ",      
     "https://www.youtube.com/watch?v=WPPPFqsECz0",      
@@ -29,18 +29,18 @@ vids = [
     "https://www.youtube.com/watch?v=nJzWpHLGWlY",      
     "https://www.youtube.com/watch?v=WfPqlTRFnLU"       
 ]
-
+#Making sure last video doesnt repeat
 if 'last_video' not in st.session_state:
     st.session_state.last_video = vids[0]
 
-# Add spacing
+
 st.write("")
 st.write("")
 
 col1, col2, col3 = st.columns([1, 4, 1])
 
 with col2:
-    # --- CSS INJECTION ---
+    #CSS
     st.markdown("""
         <style>
         .quote-box {
@@ -60,16 +60,13 @@ with col2:
         </style>
     """, unsafe_allow_html=True)
 
-    # --- UPDATED BANNER ---
-    # Replaced the previous text with "Wellness Corner" and applied the .quote-box class
+
     st.markdown('<div class="quote-box">Wellness Corner 🌿</div>', unsafe_allow_html=True)
     
-    # Video Player
     st.video(st.session_state.last_video)
     
     st.write("")
     
-    # Center the button
     b1, b2, b3 = st.columns([1, 1, 1])
     with b2:
         if st.button("Play", use_container_width=True):
