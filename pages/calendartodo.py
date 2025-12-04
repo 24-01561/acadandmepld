@@ -3,19 +3,19 @@ from streamlit_calendar import calendar
 import json, os
 import sys
 
-# --- 0. PAGE CONFIG MUST BE FIRST ---
+#Set page's configurations
 st.set_page_config(page_title="Calendar To-Do", page_icon="📅", layout="wide", initial_sidebar_state="collapsed")
 
-# --- 1. IMPORT FIX ---
+#Import tab
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import tab 
 
-# --- 2. INJECT LAYOUT ---
+#Inject tab layout styles
 tab.render_css() 
 tab.render_top_buttons()
 tab.render_navbar()
 
-# --- 3. CUSTOM CSS (ZOOM EFFECT, NO COLOR CHANGE) ---
+#Custom CSS for calendar
 st.markdown("""
 <style>
     /* --- 1. BUTTONS: Dark Grey Base --- */
@@ -130,7 +130,7 @@ left_gap, main_col, right_gap = st.columns([0.1, 10, 0.1])
 
 with main_col:
     
-    st.title("Calendar To-Do Integration ng mga legends")
+    st.title("Calendar To-Do Integration")
 
     # --- Buttons Row ---
     btn_col1, btn_col2 = st.columns(2)
