@@ -1,39 +1,40 @@
 import streamlit as st
-import tab  # Import the layout file
+import tab  # Import tab module for layout components
 import base64
 
-# 1. Page Setup
+#Set Page's Configuration
 st.set_page_config(layout="wide", page_title="Acad&Me")
 
-# 2. Inject Layout (CSS, Buttons, Navbar)
+#Import tab 
 tab.render_css()
 tab.render_top_buttons()
 tab.render_navbar()
 
-# --- PAGE SPECIFIC IMAGES ---
+#Setting main page's images 
 comp_b64 = tab.get_base64_image("Other07.png")
 abstract_b64 = tab.get_base64_image("Other12.png")
 folder_b64 = tab.get_base64_image("Other18.png")
 
-# --- LOAD 4 IMAGES FOR THE TEAM ---
+#Setting main page's images for the 4 members
 img1_b64 = tab.get_base64_image("Card1.png")
 img2_b64 = tab.get_base64_image("Card2.png")
 img3_b64 = tab.get_base64_image("ricci.png")
 img4_b64 = tab.get_base64_image("Card4.png")
 
-# --- DEFINE SOURCES ---
-comp_src = f"data:image/png;base64,{comp_b64}" if comp_b64 else "https://placehold.co/600x500/png?text=3D+Computer"
+#Defining the sources for the 3 main images
+#If image file not found, use placeholder images
+comp_src = f"data:image/png;base64,{comp_b64}" if comp_b64 else "https://placehold.co/600x500/png?text=3D+Computer" 
 abstract_src = f"data:image/png;base64,{abstract_b64}" if abstract_b64 else "https://placehold.co/435x400/png?text=Abstract+Shapes"
 folder_src = f"data:image/png;base64,{folder_b64}" if folder_b64 else "https://placehold.co/450x420/png?text=Folder+Graphic"
 
-# Sources for the 4 Team images
+#Defining Sources for the 4 Team images
+#If image file not found, use default Google profile pictures
 src1 = f"data:image/png;base64,{img1_b64}" if img1_b64 else "https://lh3.googleusercontent.com/a-/ALV-UjVCiTyC465kcmoxoQ4yhCXfnoBGtyFJpa2YBFkMD4X6ijxtgJk=s330-p-k-rw-no"
 src2 = f"data:image/png;base64,{img2_b64}" if img2_b64 else "https://lh3.googleusercontent.com/a/ACg8ocI1sH7REfpNRCEJqqfvFIOZFB95Z9zFfn1g-WCnSTxspJpb8WQ=s330-p-k-rw-no"
 src3 = f"data:image/png;base64,{img3_b64}" if img3_b64 else "https://lh3.googleusercontent.com/a-/ALV-UjW6D_Y-drda3TbR6GLGq5mbugPOaQxq-dYfOnrCn8IwQlTMBnupQNKrwIVODVKrMTMhbNlkZh_cYIpfpez6n8s_HzQmgqc7bqoO70mt5_Y25f_9WWVggi_sCUlzMOjp-1vjcMOeKEnxG1z4eZUx2awChCHB2WkO66QdFBTbXibaBeAQfzpXMk3_H6fPb2jS21mWohfzKDClaU5eJbLqlsCej08xPj4c0utyYiM3IRwZ0mhfeIGw_XVgTOo7WuOEWRYPfhYzVc43GYFetLp14Ip67Bbp15gCv0WrPBg2Y_5E99OjJDj5zo2vCMNvHFmlK09vBOz6dSbfMelLgokCSa_cVg5GECYiMqRx4NqcJan8dGk_JAvqdXNMBDTLLKspLigr-wAhA-6d4Oc51597k6ETfNTXzvsKzZZSrIDHz-DdnGJUxcy0AIgXKM5bEhLshkMpTeIb_oFGEnrQeKdSq2UfcFqtY-BVnaXjlGm26ctCX9Lv99RHcTtFu1qEDd_556rvCevUw237SXFkykGmtqjLYnW2_pDpZPpRwUP44RgwiI3vcDLWP6oDSnhwlU2sEzVqownLFdTuasaYyWGxLYsVbI0Ye3tiLe2D-1XWGJQvhJpDpo4usnE86sTKvOV_K531DK3GANKiQMiXnMU1sD4ZBomijkcTHEDUHZD4QHzmhoC-SShg-1g87LE1heSr_W4SKESSXKa5GOXwb2Grd9uNBO38lUvKh5QGieuqYKU_Thrd32eQzi8bdLcFxYXSYAHFydxo1yfQVTDkNxW0IrOAuTWHmfVTKi9SSauXpZYz63fLH6QfRynEcjFRrSBmzvYQqG6xnrQNn9gz-CqXKYUhLGZb5ouzqRDzXViDfdAbDCafQmMMUAUHrRt-mzG02AOTMqifdd4de4gMdD9KsDlQAUnWL6uO9kadh4bx7cY8bBv1H_QgnsI0EPQ0Zp1V5rvSB4Jj9Kx3JAn2PHWr92fbjJfGXfoSRmNJP7NUATSH7-vVRMCqhdUlRzfghCwj5GJFfaO8Ryqi1P1qxHmeETDVnncCk4orsFb4P_YvaOjuUsZT9KjM=s330-p-k-rw-no"
 src4 = f"data:image/png;base64,{img4_b64}" if img4_b64 else "https://lh3.googleusercontent.com/a-/ALV-UjURoXMPMWI54BvmFD7c9UJvyg0KSic3JIjU6R5iE8fAzNQZPic=s330-p-k-rw-no"
 
-# --- HTML CONTENT ---
-# CRITICAL: Do not add indentation (spaces) to the lines below!
+#HTML
 html_content = f"""
 <div class="main-content" style="max-width: 1440px; margin: 0 auto; padding: 0 40px;">
 
@@ -126,7 +127,6 @@ Get to be introduced to our developers 🚀
 </div>
 
 <style>
-/* Quote Box Style */
 .quote-box {{
 background-color: white;
 border: 1px solid black;
@@ -150,4 +150,4 @@ margin: 60px auto 40px auto;
 </style>
 """
 
-st.markdown(html_content, unsafe_allow_html=True)
+st.markdown(html_content, unsafe_allow_html=True) # Render the HTML content in Streamlit
