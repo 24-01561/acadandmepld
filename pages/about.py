@@ -3,21 +3,21 @@ import sys
 import os
 
 
-# --- 1. IMPORT FIX ---
+#Import tab
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import tab 
 
-# --- 2. PAGE CONFIG ---
+#Set page's config
 st.set_page_config(layout="wide", page_title="Acad&Me - Wellness")
 
-# --- 3. INJECT LAYOUT ---
+#Import tab components
 tab.render_css()
 tab.render_top_buttons()
 tab.render_navbar()
 
-# --- PAGE SPECIFIC IMAGES ---
+#Convert image to base64
 cpe_b64 = tab.get_base64_image("image10.png")
-# --- DEFINE SOURCES ---
+#Set image source
 cpe_src = f"data:image/png;base64,{cpe_b64}" if cpe_b64 else "https://placehold.co/600x500/png?text=3D+Computer"
 
 html_content = f"""
@@ -37,7 +37,6 @@ A student-focused platform called Acad&Me was created to make learning easier, m
 </div>
 
 <style>
-/* Quote Box Style */
 .quote-box {{
 background-color: white;
 border: 1px solid black;
@@ -61,4 +60,4 @@ margin: 60px auto 40px auto;
 </style>
 """
 
-st.markdown(html_content, unsafe_allow_html=True)
+st.markdown(html_content, unsafe_allow_html=True) #Brings down the html content to the page
