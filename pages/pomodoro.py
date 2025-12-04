@@ -4,28 +4,28 @@ import sys
 import os
 import base64
 
-# --- 1. CONFIG: WIDE MODE ---
+#Set page's config
 st.set_page_config(page_title="Pomodoro", page_icon="🍅", layout="wide")
 
-# --- 2. IMPORT LAYOUT ---
+#import tab module
 try:
     import tab
 except ImportError:
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
     import tab 
 
-# --- 3. INJECT LAYOUT ---
+#import tab components
 tab.render_css() 
 tab.render_top_buttons()
 tab.render_navbar()
 
-# --- Constants ---
+#Timer settings
 W = 25 * 60
 S = 5 * 60
 L = 15 * 60
 CYCLES = 4
 
-# --- Utility Functions ---
+#Helper Functions
 def format_time(s):
     return f"{int(s // 60):02d}:{int(s % 60):02d}"
 
@@ -36,7 +36,7 @@ def get_time(phase):
         return S
     return L
 
-# --- Control Functions ---
+#Control Functions
 def start_pause():
     st.session_state.running = not st.session_state.running
 
@@ -60,18 +60,17 @@ def move_next():
     
     set_phase(next_p)
 
-# --- CSS Styling ---
+#CSS 
 def local_css():
     st.markdown("""
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap');
 
-        /* Hide Streamlit default UI */
         #MainMenu {visibility: hidden;}
         footer {visibility: hidden;}
         header {visibility: hidden;}
 
-        /* Motivational Banner */
+        /*Motivation you got this*/
         .quote-box {
             background-color: white;
             border: 1px solid black;
@@ -87,7 +86,6 @@ def local_css():
             margin: 0 auto 20px auto;
         }
         
-        /* Main Card */
         .main-card {
             background-color: white;
             padding: 30px;
@@ -98,7 +96,7 @@ def local_css():
             margin: 0 auto 20px auto;
         }
 
-        /* Status Bar Styles */
+        /*Status*/
         .status-bar {
             display: flex;
             justify-content: center;
@@ -115,14 +113,14 @@ def local_css():
             background-color: #f0f0f0;
         }
         
-        /* Active Status Highlight */
+        /*Active status*/
         .status-active {
             color: #0D2F64;
             background-color: #FFDB5B; 
             border: 1px solid #0D2F64;
         }
 
-        /* Typography */
+        /*Typography*/
         .phase-title {
             color: #020030;
             font-size: 48px;
@@ -139,7 +137,7 @@ def local_css():
             margin-top: 10px;
         }
 
-        /* --- TIMER BUTTONS FIX (Targeted) --- */
+        /*Buttons*/
         /* We now target buttons ONLY inside the .timer-controls container */
         .timer-controls div[data-testid="stButton"] {
             display: flex;
@@ -150,7 +148,7 @@ def local_css():
             width: 100%;
             max-width: 600px !important; 
             
-            /* Ensure buttons are tall and chunky */
+
             min-height: 55px !important; 
             padding-top: 10px !important;
             padding-bottom: 10px !important;
@@ -160,7 +158,7 @@ def local_css():
             font-weight: 700 !important;
             font-size: 20px !important; 
             
-            /* Visual Styles: Light Grey + Black Border */
+
             border: 2px solid #000000 !important;
             box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.2) !important;
             background-color: #D9D9D9 !important; 
@@ -182,8 +180,8 @@ def local_css():
     </style>
     """, unsafe_allow_html=True)
 
-# --- Main App ---
 
+#Pomodoro App
 def pomodoro_app():
     if "phase" not in st.session_state:
         st.session_state.phase = "work"
@@ -196,14 +194,14 @@ def pomodoro_app():
 
     st.write("##")
 
-    # --- LAYOUT WITH COLUMNS ---
+
     left_col, center_col, right_col = st.columns([1, 1.5, 1])
 
     with center_col:
-        # Banner
+        #Banner
         st.markdown('<div class="quote-box">✨ Keep going, you got this. ✨</div>', unsafe_allow_html=True)
 
-        # --- Status Bar ---
+        #Status
         current = st.session_state.phase
         phases = [("work", "Focus"), ("short_break", "Short Break"), ("long_break", "Long Break")]
         
@@ -213,7 +211,6 @@ def pomodoro_app():
             status_html += f'<div class="status-item {active_class}">{p_name}</div>'
         status_html += '</div>'
 
-        # --- Main Card ---
         phase_label = "Study Now" if current == "work" else current.replace("_", " ").title()
         time_str = format_time(st.session_state.time_remaining)
 
@@ -225,12 +222,12 @@ def pomodoro_app():
             </div>
         """, unsafe_allow_html=True)
 
-        # Progress Bar
+        #Progress Bar
         progress = (st.session_state.total_duration - st.session_state.time_remaining) / st.session_state.total_duration
         st.progress(progress)
     
 
-        # --- CONTROLS (Wrapped in a specific container) ---
+        #Button controls
         st.markdown('<div class="timer-controls">', unsafe_allow_html=True)
         
         col1, col2 = st.columns(2)
@@ -248,7 +245,7 @@ def pomodoro_app():
             
         st.markdown('</div>', unsafe_allow_html=True) # End timer-controls container
 
-# Timer Logic
+    #Timer
     if st.session_state.running and st.session_state.time_remaining > 0:
         time.sleep(1)
         st.session_state.time_remaining -= 1
@@ -257,16 +254,14 @@ def pomodoro_app():
     if st.session_state.running and st.session_state.time_remaining <= 0:
         st.session_state.running = False
         
-        # --- PLAY LOCAL FILE ---
-        try:
-            # 1. Open the local file (make sure 'alarm.mp3' is in the same folder)
+        #Times up sound file
+        try: #Get the file, convert it to base 64
             with open("alarm.mp3", "rb") as f:
                 data = f.read()
-                
-            # 2. Convert it to a format the browser understands (Base64)
+        
             b64 = base64.b64encode(data).decode()
             
-            # 3. Inject the HTML with the encoded audio
+            #Play the sound
             st.markdown(
                 f"""
                 <audio autoplay>
@@ -278,10 +273,10 @@ def pomodoro_app():
         except FileNotFoundError:
             st.error("Could not find 'alarm.mp3'. Please check the file name.")
         
-        # -----------------------
+
 
         st.balloons()
-        time.sleep(3) # Wait for sound to play
+        time.sleep(3) 
         move_next()
         st.rerun()
 
